@@ -7,6 +7,10 @@ const Header = () => (
       Главная
     </NavLink>
     {' | '}
+    <NavLink to="/tasks" activeClassName="active">
+      Мои задачи
+    </NavLink>
+    {' | '}
     <NavLink to="/about" activeClassName="active">
       О программе
     </NavLink>
