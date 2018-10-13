@@ -13,6 +13,10 @@ export function updateTaskSuccess(task) {
   return { type: types.UPDATE_TASK_SUCCESS, task };
 }
 
+export function deleteTaskSuccess(id) {
+  return { type: types.DELETE_TASK_SUCCESS, id };
+}
+
 export function loadTasks() {
   return function disp(dispatch) {
     return taskApi
@@ -36,6 +40,19 @@ export function saveTask(task) {
         } else {
           dispatch(createTaskSuccess(savedTask));
         }
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+}
+
+export function deleteTask(id) {
+  return function disp(dispatch) {
+    return taskApi
+      .deleteTask(id)
+      .then((deletedId) => {
+        dispatch(deleteTaskSuccess(deletedId));
       })
       .catch((error) => {
         throw error;

@@ -13,10 +13,16 @@ class TasksPage extends React.Component {
     this.history = history;
 
     this.redirectToAddTaskPage = this.redirectToAddTaskPage.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
   redirectToAddTaskPage() {
     this.history.push('/task');
+  }
+
+  deleteTask(id) {
+    const { actions } = this.props;
+    actions.deleteTask(id);
   }
 
   render() {
@@ -31,7 +37,7 @@ class TasksPage extends React.Component {
           className="btn btn-primary"
           onClick={this.redirectToAddTaskPage}
         />
-        <TaskList tasks={tasks} allPriorities={priorities} />
+        <TaskList tasks={tasks} allPriorities={priorities} onDelete={this.deleteTask} />
       </div>
     );
   }

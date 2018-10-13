@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TaskListRow from './TaskListRow';
 
-const TaskList = ({ tasks, allPriorities }) => (
+const TaskList = ({ tasks, allPriorities, onDelete }) => (
   <table className="table">
     <thead>
       <tr>
+        <th>&nbsp;</th>
         <th>Название</th>
         <th>Описание</th>
         <th>Приоритет</th>
@@ -19,6 +20,7 @@ const TaskList = ({ tasks, allPriorities }) => (
           key={task.id}
           task={task}
           allPriorities={allPriorities}
+          onDelete={onDelete}
         />
       ))}
     </tbody>
@@ -30,6 +32,7 @@ TaskList.propTypes = {
   allPriorities: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default TaskList;

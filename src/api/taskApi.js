@@ -59,7 +59,9 @@ const priorities = [
 
 const generateId = {
   [Symbol.iterator]() {
-    let maxId = tasks.reduce((max, task) => (task.id > max ? task.id : max), tasks[0].id);
+    let maxId = tasks.length > 0 ? tasks.reduce(
+      (max, task) => (task.id > max ? task.id : max), tasks[0].id,
+    ) : 0;
     maxId += 1;
     return {
       next() {
@@ -100,7 +102,7 @@ class TaskApi {
     return new Promise((resolve) => {
       const indexOfTaskToDelete = tasks.findIndex(task => task.id === taskId);
       tasks.splice(indexOfTaskToDelete, 1);
-      resolve();
+      resolve(taskId);
     });
   }
 }

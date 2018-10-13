@@ -15,6 +15,14 @@ export default function taskReducer(state = initialState.tasks, action) {
         ...state.filter(task => task.id !== action.task.id),
         Object.assign({}, action.task),
       ];
+    case types.DELETE_TASK_SUCCESS: {
+      const newState = Object.assign([], state);
+      const indexOfTaskDelete = state.findIndex(task => (
+        task.id === action.id
+      ));
+      newState.splice(indexOfTaskDelete, 1);
+      return newState;
+    }
     default:
       return state;
   }
