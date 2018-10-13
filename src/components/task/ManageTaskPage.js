@@ -29,34 +29,43 @@ class ManageTaskPage extends React.Component {
   }
 
   updateTaskState(event) {
+    const { task: intask } = this.state;
     const field = event.target.name;
-    let task = Object.assign({}, this.state.task);
-    task[field] = event.target.value;
-    return this.setState({ task: task });
+    const task = Object.assign({}, intask);
+    task[field] = field === 'priorityId' ? parseInt(event.target.value, 10) : event.target.value;
+    return this.setState({ task });
   }
 
   saveTask(event) {
     event.preventDefault();
-    this.props.actions.saveTask(this.state.task);
-    this.context.router.history.push('/tasks');
+    const { task } = this.state;
+    const { actions } = this.props;
+    const { router } = this.context;
+    actions.saveTask(task);
+    router.history.push('/tasks');
   }
 
   render() {
+    const { priorities } = this.props;
+    const { task } = this.state;
+    const { errors } = this.state;
     return (
       <TaskForm
-        allPriorities={this.props.priorities}
+        allPriorities={priorities}
         onChange={this.updateTaskState}
         onSave={this.saveTask}
-        task={this.state.task}
-        errors={this.state.errors}
+        task={task}
+        errors={errors}
       />
     );
   }
 }
 
 ManageTaskPage.propTypes = {
-  task: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired,
-  priorities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  task: PropTypes.shape(
+    { id: PropTypes.number.isRequired, priorityId: PropTypes.number },
+  ).isRequired,
+  priorities: PropTypes.arrayOf(PropTypes.shape({ value: PropTypes.number })).isRequired,
   actions: PropTypes.shape({}).isRequired,
 };
 
@@ -71,29 +80,36 @@ function getTaskById(tasks, id) {
 }
 
 function mapStateToProps(state, ownProps) {
-  const taskId = ownProps.match.params.id;
+  const taskId = parseInt(ownProps.match.params.id, 10);
 
-  let course = {
-    id: '', watchHref: '', title: '', authorId: '', length: '', category: '',
+  let task = {
+    id: 0,
+    name: '',
+    description: '',
+    priorityId: 0,
   };
 
   if (taskId && state.tasks.length > 0) {
-    course = getTaskById(state.tasks, taskId);
+    task = getTaskById(state.tasks, taskId);
   }
-  const prioritiesFormattedForDropdown = state.priorities.map(priority => {
-      value: priority.id,
-      text: priority.name
-    });
+  const prioritiesFormattedForDropdown = state.priorities.map(priority => (
+    {
+      priority: {
+        value: priority.id,
+        text: priority.name,
+      },
+    }
+  ));
 
   return {
-    task: task,
-    priorities: prioritiesFormattedForDropdown
+    task,
+    priorities: prioritiesFormattedForDropdown,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(taskActions, dispatch)
+    actions: bindActionCreators(taskActions, dispatch),
   };
 }
 

@@ -13,11 +13,15 @@ const SelectInput = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="form-control"
+        className="form-control col-md-4"
       >
-        <option value="">{defaultOption}</option>
+        <option value={0}>{defaultOption}</option>
         {options
-          .map(option => <option key={option.value} value={option.value}>{option.text}</option>)
+          .map(option => (
+            <option key={option.priority.value} value={option.priority.value}>
+              {option.priority.text}
+            </option>
+          ))
           }
       </select>
       {error && <div className="alert alert-danger">{error}</div>}
@@ -30,14 +34,14 @@ SelectInput.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   defaultOption: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
   error: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
 };
 
 SelectInput.defaultProps = {
   defaultOption: '',
-  value: '',
+  value: 0,
   error: '',
   options: '',
 };

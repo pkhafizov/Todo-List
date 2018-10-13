@@ -11,19 +11,27 @@ class TasksPage extends React.Component {
     super(props);
 
     this.history = history;
+
+    this.redirectToAddTaskPage = this.redirectToAddTaskPage.bind(this);
   }
 
-  redirectToAddCoursePage() {
+  redirectToAddTaskPage() {
     this.history.push('/task');
   }
 
   render() {
     const { tasks } = this.props;
+    const { priorities } = this.props;
     return (
       <div>
         <h1>Задачи</h1>
-        <TaskList tasks={tasks} />
-        <input type="submit" value="Добавить Задачу" className="btn btn-primary" onClick={this.redirectToAddCoursePage} />
+        <input
+          type="submit"
+          value="Добавить Задачу"
+          className="btn btn-primary"
+          onClick={this.redirectToAddTaskPage}
+        />
+        <TaskList tasks={tasks} allPriorities={priorities} />
       </div>
     );
   }
@@ -31,12 +39,16 @@ class TasksPage extends React.Component {
 
 TasksPage.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired })).isRequired,
+  priorities: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired).isRequired,
   actions: PropTypes.shape({}).isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     tasks: state.tasks,
+    priorities: state.priorities,
   };
 }
 

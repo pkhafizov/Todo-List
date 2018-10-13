@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
-import DatePicker from '../common/DatePicker';
+import RenderDatePicker from '../common/RenderDatePicker';
 
 const TaskForm = ({
   task, allPriorities, onSave, onChange, loading, errors,
 }) => (
   <form>
-    <h1>Редактирование задачи</h1>
+    {task.id !== 0 && (<h1>Редактирование задачи</h1>)}
+    {task.id === 0 && (<h1>Создание задачи</h1>)}
     <TextInput
       name="name"
       label="Название"
@@ -26,19 +27,28 @@ const TaskForm = ({
     />
     <SelectInput
       name="priorityId"
-      label="Важность"
+      label="Приоритет"
       value={task.priorityId}
-      defaultOption="Выбрать важность задачи"
+      defaultOption="Выбрать приоритет задачи"
       options={allPriorities}
       onChange={onChange}
       error={errors.priorityId}
     />
-    <DatePicker
+    <RenderDatePicker
       name="sheduledDate"
+      label="Запланированная дата"
+      startDate={task.sheduledDate}
+      onChange={onChange}
+      onChangeRow={onChange}
     />
-    <DatePicker
+    {task.id !== 0 && (<RenderDatePicker
       name="finishDate"
+      label="Дата выполнения"
+      startDate={task.finishDate}
+      onChange={onChange}
+      onChangeRow={onChange}
     />
+    )}
     <input
       type="submit"
       disabled={loading}
@@ -50,12 +60,14 @@ const TaskForm = ({
 );
 
 TaskForm.propTypes = {
-  task: PropTypes.shape({ id: PropTypes.number.isRequired }).isRequired,
+  task: PropTypes.shape(
+    { id: PropTypes.number.isRequired, priorityId: PropTypes.number },
+  ).isRequired,
   allPriorities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onSave: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  errors: PropTypes.shape({}).isRequired,
+  errors: PropTypes.shape({ title: '' }).isRequired,
 };
 
 TaskForm.defaultProps = {

@@ -1,0 +1,62 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
+
+import '../../../node_modules/react-datepicker/dist/react-datepicker.css';
+
+class renderDatePicker extends React.Component {
+  constructor(props) {
+    super(props);
+    const { startDate } = this.props;
+    this.state = {
+      startDate,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(date) {
+    this.setState({
+      startDate: date,
+    });
+  }
+
+  render() {
+    const { startDate } = this.state;
+    const { name } = this.props;
+    const { label } = this.props;
+    const { onChange } = this.props;
+    return (
+      <div className="form-group">
+        <label htmlFor={name}>
+          {label}
+        </label>
+        <div className="input-group">
+          <DatePickeri
+            className="form-control"
+            selected={startDate}
+            onChange={onChange}
+            locale="ru-ru"
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            dateFormat="LLL"
+            timeCaption="Время"
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
+DatePicker.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  startDate: PropTypes.shape({}),
+  onChange: PropTypes.func.isRequired,
+};
+
+DatePicker.defaultProps = {
+  startDate: {},
+};
+
+export default renderDatePicker;

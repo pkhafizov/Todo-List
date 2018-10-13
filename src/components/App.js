@@ -5,6 +5,7 @@ import Header from './common/Header';
 import AboutPage from './about/AboutPage';
 import TasksPage from './task/TasksPage';
 import history from '../history';
+import ManageTaskPage from './task/ManageTaskPage';
 
 const App = () => (
   <Router history={history}>
@@ -12,8 +13,10 @@ const App = () => (
       <Header />
       <Switch>
         <Route path="/" component={HomePage} exact />
-        <Route path="/tasks" component={TasksPage} exact />
-        <Route path="/about" component={AboutPage} exact />
+        <Route path="/tasks" component={TasksPage} />
+        <Route path="/task/:id" component={ManageTaskPage} />
+        <Route path="/task" component={ManageTaskPage} />
+        <Route path="/about" component={AboutPage} />
       </Switch>
     </div>
   </Router>
