@@ -83,6 +83,19 @@ class TaskApi {
     return new Promise(resolve => resolve(Object.assign([], priorities)));
   }
 
+  static getTasksByPriority(priorityId) {
+    const id = priorityId;
+    let tasksByPriority = [];
+    return new Promise((resolve) => {
+      if (id === -1) {
+        tasksByPriority = Object.assign([], tasks);
+      } else {
+        tasksByPriority = tasks.filter(t => t.priorityId === id);
+      }
+      resolve(tasksByPriority);
+    });
+  }
+
   static saveTask(task) {
     const intask = Object.assign({}, task);
     return new Promise((resolve) => {
@@ -99,10 +112,11 @@ class TaskApi {
   }
 
   static deleteTask(taskId) {
+    const id = taskId;
     return new Promise((resolve) => {
-      const indexOfTaskToDelete = tasks.findIndex(task => task.id === taskId);
+      const indexOfTaskToDelete = tasks.findIndex(task => task.id === id);
       tasks.splice(indexOfTaskToDelete, 1);
-      resolve(taskId);
+      resolve(id);
     });
   }
 }

@@ -13,9 +13,10 @@ const SelectInput = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="form-control col-md-4"
+        className="form-control"
       >
-        <option value={0}>{defaultOption}</option>
+        {defaultOption !== '' && (
+        <option value={0}>{defaultOption}</option>)}
         {options
           .map(option => (
             <option key={option.priority.value} value={option.priority.value}>

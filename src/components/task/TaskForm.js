@@ -25,15 +25,17 @@ const TaskForm = ({
       onChange={onChange}
       error={errors.description}
     />
-    <SelectInput
-      name="priorityId"
-      label="Приоритет"
-      value={task.priorityId}
-      defaultOption="Выбрать приоритет задачи"
-      options={allPriorities}
-      onChange={onChange}
-      error={errors.priorityId}
-    />
+    <div className="col-md-4 pl-0">
+      <SelectInput
+        name="priorityId"
+        label="Приоритет"
+        value={task.priorityId}
+        defaultOption="Выбрать приоритет задачи"
+        options={allPriorities}
+        onChange={onChange}
+        error={errors.priorityId}
+      />
+    </div>
     <RenderDatePicker
       name="sheduledDate"
       label="Запланированная дата"
