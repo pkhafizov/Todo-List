@@ -12,8 +12,9 @@ const TaskListRow = ({ task, allPriorities, onDelete }) => {
   const onClickDelete = () => {
     onDelete(task.id);
   };
+  const trSelection = (sheduledDate, finishDate) => (moment(sheduledDate).isBefore(finishDate, 'minute') ? 'table-danger' : 'table-default');
   return (
-    <tr>
+    <tr className={trSelection(task.sheduledDate, task.finishDate)}>
       <td><button type="button" className="btn btn-outline-primary btn-sm" onClick={onClickDelete}>&#9932;</button></td>
       <td>
         <Link to={`/task/${task.id}`}>{task.name}</Link>

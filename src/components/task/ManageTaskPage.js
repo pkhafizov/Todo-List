@@ -86,7 +86,7 @@ function mapStateToProps(state, ownProps) {
     id: 0,
     name: '',
     description: '',
-    priorityId: 0,
+    priorityId: 1,
   };
 
   if (taskId && state.tasks.length > 0) {
