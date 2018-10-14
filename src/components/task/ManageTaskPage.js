@@ -42,7 +42,7 @@ class ManageTaskPage extends React.Component {
     const { actions } = this.props;
     const { router } = this.context;
     actions.saveTask(task);
-    router.history.push('/tasks');
+    router.history.push('/');
   }
 
   render() {

@@ -3,11 +3,11 @@ import { NavLink } from 'react-router-dom';
 
 const Header = () => (
   <nav>
-    <NavLink to="/" activeClassName="active" exact>
+    {/* <NavLink to="/" activeClassName="active" exact>
       Главная
     </NavLink>
-    {' | '}
-    <NavLink to="/tasks" activeClassName="active">
+{' | '} */}
+    <NavLink to="/" activeClassName="active">
       Мои задачи
     </NavLink>
     {' | '}
