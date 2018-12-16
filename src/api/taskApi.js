@@ -45,91 +45,57 @@ const delRequest = (url) => {
 class TaskApi {
   static getAllTasks() {
     const gtrequest = getRequest('tasks');
-    return new Promise((resolve, reject) => {
-      fetch(gtrequest)
-        .then(resp => resp.json())
-        .then((data) => {
-          resolve(Object.assign([], data));
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    return fetch(gtrequest)
+      .then(resp => resp.json())
+      .then(data => Object.assign([], data))
+      .catch((error) => { throw error; });
   }
 
   static getAllPriorities() {
     const request = getRequest('priorities');
-    return new Promise((resolve, reject) => {
-      fetch(request)
-        .then(resp => resp.json())
-        .then((data) => {
-          resolve(Object.assign([], data));
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    return fetch(request)
+      .then(resp => resp.json())
+      .then(data => Object.assign([], data))
+      .catch((error) => { throw error; });
   }
 
   static getTasksByPriority(priorityId) {
     const request = getRequest('tasks');
-    return new Promise((resolve, reject) => {
-      fetch(request)
-        .then(resp => resp.json())
-        .then((data) => {
-          const id = priorityId;
-          let tasksByPriority = [];
-          if (id === -1) {
-            tasksByPriority = Object.assign([], data);
-          } else {
-            tasksByPriority = data.filter(t => t.priorityId === id);
-          }
-          resolve(tasksByPriority);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    return fetch(request)
+      .then(resp => resp.json())
+      .then((data) => {
+        const id = priorityId;
+        let tasksByPriority = [];
+        if (id === -1) {
+          tasksByPriority = Object.assign([], data);
+        } else {
+          tasksByPriority = data.filter(t => t.priorityId === id);
+        }
+        return tasksByPriority;
+      })
+      .catch((error) => { throw error; });
   }
 
   static saveTask(task) {
     const intask = Object.assign({}, task);
-    return new Promise((resolve, reject) => {
-      if (intask.id) {
-        const ptRequest = putRequest(`tasks/${intask.id}`, intask);
-        fetch(ptRequest)
-          .then(() => {
-            resolve(intask);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      } else {
-        const pstRequest = postRequest('tasks', intask);
-        fetch(pstRequest)
-          .then(resp => resp.json())
-          .then((data) => {
-            resolve(data);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }
-    });
+    let pstRequest;
+    if (intask.id) {
+      pstRequest = putRequest(`tasks/${intask.id}`, intask);
+    } else {
+      pstRequest = postRequest('tasks', intask);
+    }
+    return fetch(pstRequest)
+      .then(resp => resp.json())
+      .then(data => data)
+      .catch((error) => { throw error; });
   }
 
   static deleteTask(taskId) {
     const id = taskId;
-    return new Promise((resolve, reject) => {
-      const dltRequest = delRequest(`tasks/${id}`);
-      fetch(dltRequest)
-        .then(() => {
-          resolve(id);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
+    const dltRequest = delRequest(`tasks/${id}`);
+    return fetch(dltRequest)
+      .then(() => id)
+      .catch((error) => { throw error; });
   }
 }
 
